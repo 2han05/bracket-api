@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Single Elimination Bracket</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #1e1e2e;
+        color: white;
+        text-align: center;
+      }
+      .team-input {
+        margin: 5px;
+      }
+      .bracket {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 40px;
+      }
+      .round {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .match {
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 10px;
+        background: #2a2a3d;
+      }
+      .team {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Single Elimination Bracket</h1>
+
+    <div>
+      <label>Number of Teams (2-16): </label>
+      <input type="number" id="teamCount" min="2" max="16" value="4" />
+      <button onclick="createInputs()">Set Teams</button>
+    </div>
+
+    <form id="teamForm"></form>
+    <button onclick="generateBracket()">Generate Bracket</button>
+
+    <div id="bracket" class="bracket"></div>
+
+    <script>
+      function createInputs() {
+        const count = document.getElementById("teamCount").value;
+        const form = document.getElementById("teamForm");
+        form.innerHTML = "";
+        for (let i = 0; i < count; i++) {
+          form.innerHTML += `<input class="team-input" type="text" placeholder="Team ${
+            i + 1
+          }" required><br>`;
+        }
+      }
+
+      async function generateBracket() {
+        const inputs = document.querySelectorAll(".team-input");
+        const teams = Array.from(inputs)
+          .map((input) => input.value)
+          .filter(Boolean);
+
+        if (teams.length < 2) {
+          alert("Please enter at least 2 team names.");
+          return;
+        }
+
+        const response = await fetch("http://localhost:3000/api/bracket", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ teams }),
+        });
+
+        const data = await response.json();
+        renderBracket([{ round: 1, matches: data.matches }]);
+      }
+
+      function renderBracket(rounds) {
+        const bracketDiv = document.getElementById("bracket");
+        bracketDiv.innerHTML = "";
+
+        rounds.forEach((round) => {
+          const roundDiv = document.createElement("div");
+          roundDiv.classList.add("round");
+
+          round.matches.forEach((match) => {
+            const matchDiv = document.createElement("div");
+            matchDiv.classList.add("match");
+
+            matchDiv.innerHTML = `
+            <div class="team">${match.team1}</div>
+            <div class="team">vs</div>
+            <div class="team">${match.team2}</div>
+          `;
+
+            roundDiv.appendChild(matchDiv);
+          });
+
+          bracketDiv.appendChild(roundDiv);
+        });
+      }
+    </script>
+  </body>
+</html>
