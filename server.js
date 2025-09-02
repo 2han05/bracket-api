@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const PORT = 3000;
 
+app.use(express.json());              // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing form data
 app.use(express.static("public"));
 
 let bracket = [];
