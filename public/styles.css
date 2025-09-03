@@ -10,7 +10,115 @@ body {
 }
 
 .bracket {
+  display: flex;body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(135deg, #1f1f2e, #0d0d14);
+  color: #f5f5f5;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #ffcc00;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+input,
+button {
+  padding: 10px 14px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+}
+
+input {
+  background: #2c2c3a;
+  color: #fff;
+}
+
+button {
+  background: #ffcc00;
+  color: #1a1a1a;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #ffaa00;
+}
+
+/* Bracket Layout */
+.bracket {
   display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px;
+  margin-top: 40px;
+  overflow-x: auto;
+  padding: 20px;
+}
+
+/* Each round */
+.round {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+}
+
+/* Each match */
+.match {
+  background: #2a2a3d;
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 12px 18px;
+  min-width: 150px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.match:hover {
+  transform: scale(1.05);
+}
+
+/* Teams inside match */
+.team {
+  padding: 6px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+.team:first-child {
+  border-bottom: 1px solid #555;
+}
+
+/* "vs" styling */
+.team:nth-child(2) {
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+/* Connector lines */
+.round:not(:last-child) .match::after {
+  content: "";
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  width: 30px;
+  height: 2px;
+  background: #666;
+}
+
   justify-content: center;
   margin-top: 20px;
   gap: 40px;
