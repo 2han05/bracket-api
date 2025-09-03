@@ -1,16 +1,5 @@
+/* General Layout */
 body {
-  font-family: Arial, sans-serif;
-  background: #1e1e2e;
-  color: white;
-  text-align: center;
-}
-
-.team-input {
-  margin: 5px;
-}
-
-.bracket {
-  display: flex;body {
   font-family: "Segoe UI", Arial, sans-serif;
   background: linear-gradient(135deg, #1f1f2e, #0d0d14);
   color: #f5f5f5;
@@ -27,6 +16,7 @@ h1 {
   text-transform: uppercase;
 }
 
+/* Inputs & Buttons */
 input,
 button {
   padding: 10px 14px;
@@ -90,22 +80,32 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* Teams inside match */
+/* Teams */
 .team {
+  margin: 5px 0;
   padding: 6px 0;
   font-size: 1rem;
   font-weight: 500;
   border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-.team:first-child {
-  border-bottom: 1px solid #555;
+.team:hover {
+  background: rgba(255, 204, 0, 0.2);
 }
 
-/* "vs" styling */
-.team:nth-child(2) {
+.winner {
+  background: #ffcc00;
+  color: #1a1a1a;
+  font-weight: bold;
+}
+
+/* VS label */
+.vs {
   font-size: 0.9rem;
   color: #bbb;
+  margin: 4px 0;
 }
 
 /* Connector lines */
@@ -117,26 +117,4 @@ button:hover {
   width: 30px;
   height: 2px;
   background: #666;
-}
-
-  justify-content: center;
-  margin-top: 20px;
-  gap: 40px;
-}
-
-.round {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.match {
-  border: 1px solid #444;
-  border-radius: 8px;
-  padding: 10px;
-  background: #2a2a3d;
-}
-
-.team {
-  margin: 5px 0;
 }

@@ -26,7 +26,13 @@ async function generateBracket() {
   });
 
   const data = await response.json();
-  renderBracket([{ round: 1, matches: data.matches }]);
+  renderBracket([data]);
+}
+
+async function fetchBracket() {
+  const res = await fetch("http://localhost:3000/api/bracket");
+  const data = await res.json();
+  renderBracket(data.rounds);
 }
 
 function renderBracket(rounds) {
@@ -41,11 +47,36 @@ function renderBracket(rounds) {
       const matchDiv = document.createElement("div");
       matchDiv.classList.add("match");
 
+      // Highlight winner if chosen
+      const winnerClass = team =>
+        match.winner === team ? "winner" : "";
+
       matchDiv.innerHTML = `
-        <div class="team">${match.team1}</div>
-        <div class="team">vs</div>
-        <div class="team">${match.team2}</div>
+        <div class="team ${winnerClass(match.team1)}" data-id="${match.matchId}" data-team="${match.team1}">
+          ${match.team1}
+        </div>
+        <div class="vs">vs</div>
+        <div class="team ${winnerClass(match.team2)}" data-id="${match.matchId}" data-team="${match.team2}">
+          ${match.team2}
+        </div>
       `;
+
+      // Add click listeners
+      matchDiv.querySelectorAll(".team").forEach(teamEl => {
+        if (teamEl.innerText !== "BYE") {
+          teamEl.addEventListener("click", async () => {
+            await fetch("http://localhost:3000/api/match", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                matchId: teamEl.dataset.id,
+                winner: teamEl.dataset.team,
+              }),
+            });
+            fetchBracket(); // refresh bracket
+          });
+        }
+      });
 
       roundDiv.appendChild(matchDiv);
     });
