@@ -19,14 +19,14 @@ async function generateBracket() {
     return;
   }
 
-  const response = await fetch("http://localhost:3000/api/bracket", {
+  // Send to backend
+  await fetch("http://localhost:3000/api/bracket", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ teams }),
   });
 
-  const data = await response.json();
-  renderBracket([data]);
+  fetchBracket();
 }
 
 async function fetchBracket() {
@@ -39,7 +39,7 @@ function renderBracket(rounds) {
   const bracketDiv = document.getElementById("bracket");
   bracketDiv.innerHTML = "";
 
-  rounds.forEach(round => {
+  rounds.forEach((round, roundIndex) => {
     const roundDiv = document.createElement("div");
     roundDiv.classList.add("round");
 
@@ -47,9 +47,9 @@ function renderBracket(rounds) {
       const matchDiv = document.createElement("div");
       matchDiv.classList.add("match");
 
-      // Highlight winner if chosen
-      const winnerClass = team =>
-        match.winner === team ? "winner" : "";
+      const isFinal = roundIndex === rounds.length - 1;
+
+      const winnerClass = team => match.winner === team ? (isFinal ? "winner champion" : "winner") : "";
 
       matchDiv.innerHTML = `
         <div class="team ${winnerClass(match.team1)}" data-id="${match.matchId}" data-team="${match.team1}">
@@ -61,19 +61,19 @@ function renderBracket(rounds) {
         </div>
       `;
 
-      // Add click listeners
+      // Click to choose winner
       matchDiv.querySelectorAll(".team").forEach(teamEl => {
-        if (teamEl.innerText !== "BYE") {
+        if (teamEl.innerText !== "BYE" && teamEl.innerText !== "") {
           teamEl.addEventListener("click", async () => {
             await fetch("http://localhost:3000/api/match", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                matchId: teamEl.dataset.id,
+                matchId: parseInt(teamEl.dataset.id),
                 winner: teamEl.dataset.team,
               }),
             });
-            fetchBracket(); // refresh bracket
+            fetchBracket();
           });
         }
       });
