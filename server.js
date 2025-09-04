@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());              // for parsing application/json
-app.use(express.urlencoded({ extended: true })); // for parsing form data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 let bracket = [];
@@ -47,7 +47,7 @@ app.post("/api/bracket", (req, res) => {
   res.json(bracket[0]);
 });
 
-// Get bracket
+// Get full bracket
 app.get("/api/bracket", (req, res) => {
   res.json({ rounds: bracket });
 });
@@ -65,7 +65,7 @@ app.post("/api/match", (req, res) => {
 
       match.winner = winner;
 
-      // Check if round is complete
+      // If round is complete, create next round
       if (round.matches.every(m => m.winner !== null)) {
         const winners = round.matches.map(m => m.winner);
         if (winners.length > 1) {
