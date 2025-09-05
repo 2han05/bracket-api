@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Single Elimination Bracket</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <h1>Single Elimination Bracket</h1>
+<head>
+  <meta charset="UTF-8" />
+  <title>Single Elimination Bracket</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Single Elimination Bracket</h1>
 
-    <div>
-      <label>Number of Teams (2-16): </label>
-      <input type="number" id="teamCount" min="2" max="16" value="4" />
-      <button id="setTeamsBtn">Set Teams</button>
-    </div>
+  <div>
+    <label>Number of Teams: </label>
+    <select id="teamCount">
+      <option value="2">2</option>
+      <option value="4" selected>4</option>
+      <option value="8">8</option>
+      <option value="16">16</option>
+    </select>
+    <button id="setTeamsBtn">Set Teams</button>
+  </div>
 
-    <form id="teamForm"></form>
-    <button id="generateBracketBtn">Generate Bracket</button>
+  <form id="teamForm"></form>
+  <button id="generateBracketBtn">Generate Bracket</button>
 
-    <div id="bracket" class="bracket"></div>
+  <div id="bracket" class="bracket"></div>
+  <div id="championText"></div>
 
-    <script src="script.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
