@@ -1,22 +1,23 @@
-/* General Layout */
+/* General Layout for the entire page */
 body {
   font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(135deg, #1f1f2e, #0d0d14);
-  color: #f5f5f5;
+  background: linear-gradient(135deg, #1f1f2e, #0d0d14); /* dark gradient background */
+  color: #f5f5f5; /* light text */
   text-align: center;
   margin: 0;
   padding: 20px;
 }
 
+/* Main title styling */
 h1 {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #ffcc00;
+  color: #ffcc00; /* gold color */
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
-/* Inputs & Buttons */
+/* Shared styles for all inputs & buttons */
 input,
 button {
   padding: 10px 14px;
@@ -27,48 +28,48 @@ button {
   outline: none;
 }
 
+/* Input field styling */
 input {
   background: #2c2c3a;
   color: #fff;
 }
 
+/* Button styling */
 button {
-  background: #ffcc00;
-  color: #1a1a1a;
+  background: #ffcc00; /* gold */
+  color: #1a1a1a; /* dark text */
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s ease;
 }
 
+/* Button hover effect */
 button:hover {
-  background: #ffaa00;
+  background: #ffaa00; /* orange */
 }
 
-/* Bracket Layout */
+/* Bracket container */
 .bracket {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 60px;
+  gap: 60px; /* space between rounds */
   margin-top: 40px;
-  overflow-x: auto;
+  overflow-x: auto; /* allow horizontal scroll if bracket is wide */
   padding: 20px;
   position: relative;
 }
 
-/* Each round */
+/* Each round column */
 .round {
   display: flex;
   flex-direction: column;
   position: relative;
-  gap: 40px;
+  gap: 40px; /* vertical gap between matches */
   padding: 20px 0;
 }
 
-/* Matches in rounds after first get margin-top adjusted dynamically */
-/* .round:nth-child(n+2) .match { margin-top: 20px; } */
-
-/* Each match */
+/* Individual match container */
 .match {
   background: #2a2a3d;
   border: 1px solid #444;
@@ -81,11 +82,12 @@ button:hover {
   transition: transform 0.2s;
 }
 
+/* Slight scale-up when hovering over a match */
 .match:hover {
   transform: scale(1.05);
 }
 
-/* Teams */
+/* Each team inside a match */
 .team {
   margin: 5px 0;
   padding: 6px 0;
@@ -96,19 +98,21 @@ button:hover {
   transition: background 0.3s;
 }
 
+/* Highlight when hovering on a team */
 .team:hover {
   background: rgba(255, 204, 0, 0.2);
 }
 
+/* Winning team highlight */
 .winner {
-  background: #ffcc00;
-  color: #1a1a1a;
+  background: #ffcc00; /* gold */
+  color: #1a1a1a; /* dark text */
   font-weight: bold;
 }
 
-/* Champion Highlight */
+/* Final champion highlight */
 .champion {
-  background: #ff5733 !important;
+  background: #ff5733 !important; /* bright orange/red */
   color: white !important;
   font-size: 1.2rem;
   font-weight: bold;
@@ -116,31 +120,33 @@ button:hover {
   box-shadow: 0 0 10px #ff5733;
 }
 
-/* VS label */
+/* VS text inside match */
 .vs {
   font-size: 0.9rem;
   color: #bbb;
   margin: 4px 0;
 }
 
-/* Connectors */
-
+/* Connector lines between matches */
 .connector {
   position: absolute;
   background: #666;
   z-index: 0;
 }
 
+/* Vertical connector line */
 .connector.vertical {
   width: 2px;
   border-radius: 1px;
 }
 
+/* Horizontal connector line */
 .connector.horizontal {
   height: 2px;
   border-radius: 1px;
 }
-/* Team Count Selector Design */
+
+/* Dropdown for selecting number of teams */
 #teamCount {
   padding: 8px 12px;
   border-radius: 8px;
@@ -153,11 +159,13 @@ button:hover {
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
+/* Hover effect for team count dropdown */
 #teamCount:hover {
   background: #3a3a4a;
   transform: scale(1.05);
 }
-/* Champion Text Styling */
+
+/* Champion text under the bracket */
 #championText {
   margin-top: 30px;
   font-size: 1.5rem;
@@ -166,4 +174,3 @@ button:hover {
   text-shadow: 1px 1px 3px #000;
   text-align: center;
 }
-
