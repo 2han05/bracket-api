@@ -52,10 +52,79 @@ app.post("/api/bracket", (req, res) => {
   res.json({ rounds: bracket });
 });
 
-// Get full bracket
+// Get full bracket (augmented with future rounds + fill winners into null slots)
 app.get("/api/bracket", (req, res) => {
-  res.json({ rounds: bracket });
+  if (!bracket || bracket.length === 0) {
+    return res.json({ rounds: bracket });
+  }
+
+  // Deep copy so we don't mutate in-memory data
+  const augmented = JSON.parse(JSON.stringify(bracket));
+
+  // Determine initial teams
+  const initialMatches = augmented[0].matches.length || 0;
+  const initialTeams = initialMatches * 2;
+  if (initialTeams <= 0) {
+    return res.json({ rounds: augmented });
+  }
+
+  const roundsNeeded = Math.ceil(Math.log2(initialTeams));
+
+  // Find max matchId for safe numbering
+  let maxMatchId = 0;
+  augmented.forEach(r =>
+    r.matches.forEach(m => {
+      if (m && typeof m.matchId === "number" && m.matchId > maxMatchId) {
+        maxMatchId = m.matchId;
+      }
+    })
+  );
+  let matchIdCounter = maxMatchId + 1;
+
+  // Ensure all rounds exist up to finals
+  while (augmented.length < roundsNeeded) {
+    const lastMatchesCount = augmented[augmented.length - 1].matches.length;
+    const newMatches = [];
+
+    for (let i = 0; i < lastMatchesCount; i += 2) {
+      newMatches.push({
+        matchId: matchIdCounter++,
+        team1: null,
+        team2: null,
+        winner: null
+      });
+    }
+
+    augmented.push({
+      round: augmented.length + 1,
+      matches: newMatches
+    });
+  }
+
+  // Fill winners into the next round slots
+  for (let r = 0; r < augmented.length - 1; r++) {
+    const currentRound = augmented[r];
+    const nextRound = augmented[r + 1];
+
+    currentRound.matches.forEach((match, idx) => {
+      if (match.winner) {
+        // Each pair of matches feeds into one next-round match
+        const targetMatch = nextRound.matches[Math.floor(idx / 2)];
+
+        if (idx % 2 === 0) {
+          // First child slot
+          if (!targetMatch.team1) targetMatch.team1 = match.winner;
+        } else {
+          // Second child slot
+          if (!targetMatch.team2) targetMatch.team2 = match.winner;
+        }
+      }
+    });
+  }
+
+  return res.json({ rounds: augmented });
 });
+
 
 // Submit match result
 app.post("/api/match", (req, res) => {
