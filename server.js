@@ -27,6 +27,11 @@ app.post("/api/bracket", (req, res) => {
     return res.status(400).json({ error: "Maximum of 16 teams allowed" });
   }
 
+  const validCounts = [2, 4, 8, 16];
+  if (!validCounts.includes(teams.length)) {
+    return res.status(400).json({ error: "Number of teams must be 2, 4, 8, or 16" });
+  }
+
   const shuffledTeams = shuffle([...teams]);
   bracket = [];
   currentRound = 1;
@@ -44,7 +49,7 @@ app.post("/api/bracket", (req, res) => {
 
   bracket.push({ round: currentRound, matches });
 
-  res.json(bracket[0]);
+  res.json({ rounds: bracket });
 });
 
 // Get full bracket

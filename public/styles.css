@@ -53,15 +53,20 @@ button:hover {
   margin-top: 40px;
   overflow-x: auto;
   padding: 20px;
+  position: relative;
 }
 
 /* Each round */
 .round {
   display: flex;
   flex-direction: column;
-  gap: 40px;
   position: relative;
+  gap: 40px;
+  padding: 20px 0;
 }
+
+/* Matches in rounds after first get margin-top adjusted dynamically */
+/* .round:nth-child(n+2) .match { margin-top: 20px; } */
 
 /* Each match */
 .match {
@@ -108,7 +113,7 @@ button:hover {
   font-size: 1.2rem;
   font-weight: bold;
   border: 2px solid #fff;
-  box-shadow: 0 0 20px #ff5733;
+  box-shadow: 0 0 10px #ff5733;
 }
 
 /* VS label */
@@ -118,13 +123,47 @@ button:hover {
   margin: 4px 0;
 }
 
-/* Connector lines */
-.round:not(:last-child) .match::after {
-  content: "";
+/* Connectors */
+
+.connector {
   position: absolute;
-  right: -30px;
-  top: 50%;
-  width: 30px;
-  height: 2px;
   background: #666;
+  z-index: 0;
 }
+
+.connector.vertical {
+  width: 2px;
+  border-radius: 1px;
+}
+
+.connector.horizontal {
+  height: 2px;
+  border-radius: 1px;
+}
+/* Team Count Selector Design */
+#teamCount {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #2c2c3a;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#teamCount:hover {
+  background: #3a3a4a;
+  transform: scale(1.05);
+}
+/* Champion Text Styling */
+#championText {
+  margin-top: 30px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffcc00;
+  text-shadow: 1px 1px 3px #000;
+  text-align: center;
+}
+
